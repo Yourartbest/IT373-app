@@ -1,2 +1,6 @@
 # Ignore the template folder and everything inside it
 app/template/
+template/
+
+# Python virtual environment
+.venv/
