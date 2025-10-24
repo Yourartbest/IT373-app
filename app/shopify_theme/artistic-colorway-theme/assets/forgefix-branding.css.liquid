@@ -1,0 +1,66 @@
+/* ============================================
+   FORGEFIX - SHOPIFY HORIZON THEME BRANDING
+   Design System: Bold, Modular, Conversion-Driven
+   ============================================ */
+
+:root {
+    /* Dynamic colors from theme settings */
+    --primary: {{ settings.brand_primary | default: '#2c2c2c' }}; /* Charcoal Black */
+    --accent: {{ settings.brand_accent | default: '#f5a623' }};   /* Warm Amber */
+    --background: {{ settings.brand_background | default: '#ffffff' }}; /* Pure White */
+    --surface: {{ settings.brand_surface | default: '#f9f9f9' }}; /* Light Gray */
+    
+    /* Typography */
+    --font-heading: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    --font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Button System */
+.btn-primary {
+    background-color: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary);
+    transform: scale(1.05);
+}
+
+/* Section Styling */
+.section-surface {
+    background-color: var(--surface);
+    padding: 40px 20px;
+    border-radius: 12px;
+}
+
+/* Typography Enhancements */
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+p {
+    font-family: var(--font-body);
+    color: var(--primary);
+    line-height: 1.6;
+}
+
+/* Utility Classes */
+.text-accent {
+    color: var(--accent);
+}
+
+.bg-primary {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+[Add additional Horizon-specific styling as needed...]
