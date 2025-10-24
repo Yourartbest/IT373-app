@@ -1,0 +1,88 @@
+{
+  "sections": {
+    "documents-page": {
+      "type": "documents-page",
+      "blocks": {
+        "doc-1": {
+          "type": "document_item",
+          "settings": {
+            "title": "Firmware tuning for off-brand boards",
+            "description": "Compatibility notes and recommended settings for obscure controller boards.",
+            "icon": "microchip",
+            "tags": "firmware",
+            "file_type": "PDF"
+          }
+        },
+        "doc-2": {
+          "type": "document_item",
+          "settings": {
+            "title": "Parts compatibility matrix — extruders",
+            "description": "Which hotends fit which carriage types and mounting configurations.",
+            "icon": "tools",
+            "tags": "parts",
+            "file_type": "PDF"
+          }
+        },
+        "doc-3": {
+          "type": "document_item",
+          "settings": {
+            "title": "Printer diagnostics checklist",
+            "description": "Quick checklist to follow when a print fails or hardware malfunctions.",
+            "icon": "file-alt",
+            "tags": "diagnostics, troubleshooting",
+            "file_type": "Guide"
+          }
+        },
+        "doc-4": {
+          "type": "document_item",
+          "settings": {
+            "title": "Bed leveling calibration guide",
+            "description": "Step-by-step process for achieving perfect bed leveling and Z-offset.",
+            "icon": "cog",
+            "tags": "calibration",
+            "file_type": "Guide"
+          }
+        },
+        "doc-5": {
+          "type": "document_item",
+          "settings": {
+            "title": "Marlin firmware configuration for niche printers",
+            "description": "Complete Marlin setup guide for uncommon printer models.",
+            "icon": "microchip",
+            "tags": "firmware",
+            "file_type": "PDF"
+          }
+        },
+        "doc-6": {
+          "type": "document_item",
+          "settings": {
+            "title": "Common troubleshooting scenarios",
+            "description": "Solutions to the most frequent issues encountered with niche 3D printers.",
+            "icon": "wrench",
+            "tags": "troubleshooting, diagnostics",
+            "file_type": "Guide"
+          }
+        }
+      },
+      "block_order": [
+        "doc-1",
+        "doc-2",
+        "doc-3",
+        "doc-4",
+        "doc-5",
+        "doc-6"
+      ],
+      "settings": {
+        "title": "Documentation & Guides",
+        "subtitle": "Technical documentation and repair guides for niche 3D printers",
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 32,
+        "padding-block-end": 32
+      }
+    }
+  },
+  "order": [
+    "documents-page"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "sections": {
+    "videos-page": {
+      "type": "videos-page",
+      "blocks": {
+        "video-1": {
+          "type": "video_item",
+          "settings": {
+            "title": "Fixing layer shifting — FLSUN T1 Pro",
+            "description": "Short walkthrough and diagnostics for common layer shifting issues.",
+            "tags": "flsun",
+            "duration": "8:45"
+          }
+        },
+        "video-2": {
+          "type": "video_item",
+          "settings": {
+            "title": "Nozzle clog deep clean — Generic Bowden",
+            "description": "Step-by-step cleaning and preventive tips for Bowden extruders.",
+            "tags": "generic",
+            "duration": "12:30"
+          }
+        },
+        "video-3": {
+          "type": "video_item",
+          "settings": {
+            "title": "Firmware tuning for off-brand boards",
+            "description": "Guide to flashing and configuring firmware settings for obscure controllers.",
+            "tags": "firmware",
+            "duration": "15:20"
+          }
+        },
+        "video-4": {
+          "type": "video_item",
+          "settings": {
+            "title": "Bed leveling and Z-offset calibration",
+            "description": "Get perfect first layers with proper bed leveling techniques.",
+            "tags": "calibration",
+            "duration": "10:15"
+          }
+        },
+        "video-5": {
+          "type": "video_item",
+          "settings": {
+            "title": "Hotend replacement — Direct Drive",
+            "description": "Complete guide to swapping hotends on direct drive systems.",
+            "tags": "parts, generic",
+            "duration": "18:45"
+          }
+        }
+      },
+      "block_order": [
+        "video-1",
+        "video-2",
+        "video-3",
+        "video-4",
+        "video-5"
+      ],
+      "settings": {
+        "title": "Video Guides",
+        "subtitle": "Step-by-step repair videos for niche 3D printers",
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 32,
+        "padding-block-end": 32
+      }
+    }
+  },
+  "order": [
+    "videos-page"
+  ]
+}

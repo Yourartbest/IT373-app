@@ -1,0 +1,188 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+    <header class="section-header">
+      <h2 class="section-title">{{ section.settings.title }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </header>
+
+    <div class="filter-bar">
+      <input 
+        id="doc-search" 
+        type="text"
+        placeholder="Search documents..." 
+        class="filter-input"
+      />
+      <select id="doc-filter" class="filter-select">
+        <option value="all">All topics</option>
+        <option value="firmware">Firmware</option>
+        <option value="parts">Parts</option>
+        <option value="diagnostics">Diagnostics</option>
+        <option value="calibration">Calibration</option>
+        <option value="troubleshooting">Troubleshooting</option>
+      </select>
+    </div>
+
+    <div id="doc-list" class="documents-grid">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'document_item' %}
+            <article class="card document-item" data-tags="{{ block.settings.tags }}" {{ block.shopify_attributes }}>
+              {% if block.settings.icon != blank %}
+                <div class="document-icon">
+                  <i class="fas fa-{{ block.settings.icon }}" aria-hidden="true"></i>
+                </div>
+              {% endif %}
+              <div class="card__body">
+                <h3 class="document-title">{{ block.settings.title }}</h3>
+                <p class="document-description">{{ block.settings.description }}</p>
+                {% if block.settings.file_type != blank %}
+                  <span class="document-type">{{ block.settings.file_type }}</span>
+                {% endif %}
+                {% if block.settings.document_url != blank %}
+                  <a href="{{ block.settings.document_url }}" class="btn-primary" {% if block.settings.open_new_tab %}target="_blank" rel="noopener"{% endif %}>
+                    {% if block.settings.file_type == 'PDF' %}
+                      Read PDF
+                    {% elsif block.settings.file_type == 'External' %}
+                      Visit Link
+                    {% else %}
+                      View Document
+                    {% endif %}
+                  </a>
+                {% endif %}
+              </div>
+            </article>
+        {% endcase %}
+      {% endfor %}
+    </div>
+
+    <div id="no-results" class="no-results-message">
+      <p>No documents found matching your search.</p>
+    </div>
+</section>
+
+<script>
+  (function() {
+    const search = document.getElementById('doc-search');
+    const filter = document.getElementById('doc-filter');
+    const list = document.getElementById('doc-list');
+    const noResults = document.getElementById('no-results');
+    
+    function applyFilter() {
+      const query = search.value.toLowerCase().trim();
+      const selectedTag = filter.value;
+      const items = list.querySelectorAll('.document-item');
+      let visibleCount = 0;
+      
+      items.forEach(item => {
+        const title = item.querySelector('.document-title').innerText.toLowerCase();
+        const description = item.querySelector('.document-description').innerText.toLowerCase();
+        const tags = item.dataset.tags || '';
+        
+        const matchesSearch = !query || title.includes(query) || description.includes(query);
+        const matchesFilter = selectedTag === 'all' || tags.includes(selectedTag);
+        
+        if (matchesSearch && matchesFilter) {
+          item.style.display = '';
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      
+      // Show/hide no results message
+      if (visibleCount === 0) {
+        list.style.display = 'none';
+        noResults.style.display = 'block';
+      } else {
+        list.style.display = 'grid';
+        noResults.style.display = 'none';
+      }
+    }
+    
+    if (search && filter) {
+      search.addEventListener('input', applyFilter);
+      filter.addEventListener('change', applyFilter);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Documents Page",
+  "settings": [
+    { "type": "select", "id": "section_width", "label": "Width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ], "default": "page-width" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+    { "type": "text", "id": "title", "label": "Title", "default": "Documentation & Guides" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Technical documentation and repair guides for niche 3D printers" }
+  ],
+  "blocks": [
+    {
+      "type": "document_item",
+      "name": "Document Item",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Document Title", "default": "Repair Guide" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Comprehensive guide for common repairs" },
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "file-pdf", "label": "PDF Document" },
+          { "value": "file-alt", "label": "Text Document" },
+          { "value": "tools", "label": "Tools/Repair" },
+          { "value": "microchip", "label": "Firmware" },
+          { "value": "cog", "label": "Settings" },
+          { "value": "wrench", "label": "Wrench" },
+          { "value": "book", "label": "Book" }
+        ], "default": "file-alt" },
+        { "type": "url", "id": "document_url", "label": "Document URL" },
+        { "type": "select", "id": "file_type", "label": "File Type Badge", "options": [
+          { "value": "PDF", "label": "PDF" },
+          { "value": "DOC", "label": "DOC" },
+          { "value": "Guide", "label": "Guide" },
+          { "value": "External", "label": "External Link" }
+        ], "default": "PDF" },
+        { "type": "checkbox", "id": "open_new_tab", "label": "Open in new tab", "default": true },
+        { "type": "text", "id": "tags", "label": "Tags (comma-separated: firmware, parts, diagnostics, etc.)", "default": "general" }
+      ]
+    }
+  ],
+  "presets": [
+    { 
+      "name": "Documents Page",
+      "blocks": [
+        {
+          "type": "document_item",
+          "settings": {
+            "title": "Firmware tuning for off-brand boards",
+            "description": "Compatibility notes and recommended settings for obscure controller boards.",
+            "icon": "microchip",
+            "tags": "firmware",
+            "file_type": "PDF"
+          }
+        },
+        {
+          "type": "document_item",
+          "settings": {
+            "title": "Parts compatibility matrix — extruders",
+            "description": "Which hotends fit which carriage types and mounting configurations.",
+            "icon": "tools",
+            "tags": "parts",
+            "file_type": "PDF"
+          }
+        },
+        {
+          "type": "document_item",
+          "settings": {
+            "title": "Printer diagnostics checklist",
+            "description": "Quick checklist to follow when a print fails or hardware malfunctions.",
+            "icon": "file-alt",
+            "tags": "diagnostics, troubleshooting",
+            "file_type": "Guide"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

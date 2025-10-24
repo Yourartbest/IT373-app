@@ -1,5 +1,5 @@
-<section class="forgefix town-hall section-surface">
-  <div class="container">
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section id="town-hall" class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
     <header class="section-header">
       <h2 class="section-title">{{ section.settings.title }}</h2>
       {% if section.settings.subtitle != blank %}
@@ -47,19 +47,16 @@
         </div>
       </div>
     {% endif %}
-
-    {% if section.settings.show_cta %}
-      <div class="section-actions" style="margin-top:16px;">
-        <a href="{{ section.settings.cta_link }}" class="btn-primary">{{ section.settings.cta_text }}</a>
-      </div>
-    {% endif %}
-  </div>
 </section>
 
 {% schema %}
 {
   "name": "Town Hall Info",
   "settings": [
+    { "type": "select", "id": "section_width", "label": "Width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ], "default": "page-width" },
+  { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
     { "type": "text", "id": "title", "label": "Title", "default": "ForgeFix Town Hall" },
     { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Monthly community Q&A, demos, and tips" },
     { "type": "text", "id": "date", "label": "Date", "default": "First Tuesday of each month" },
@@ -69,7 +66,7 @@
     { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Join our monthly town hall for live troubleshooting, firmware tuning tips, and Q&A for niche 3D printers.</p>" },
     { "type": "checkbox", "id": "show_cta", "label": "Show Call To Action", "default": true },
     { "type": "text", "id": "cta_text", "label": "CTA Text", "default": "RSVP" },
-    { "type": "url", "id": "cta_link", "label": "CTA Link", "default": "/pages/town-hall" }
+    { "type": "url", "id": "cta_link", "label": "CTA Link" }
   ],
   "blocks": [
     {

@@ -1,0 +1,163 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+    <header class="section-header">
+      <h2 class="section-title">{{ section.settings.title }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </header>
+
+    <div class="filter-bar">
+      <input 
+        id="video-search" 
+        type="text"
+        placeholder="Search videos..." 
+        class="filter-input"
+      />
+      <select id="video-filter" class="filter-select">
+        <option value="all">All models</option>
+        <option value="flsun">FLSUN</option>
+        <option value="generic">Generic</option>
+        <option value="firmware">Firmware</option>
+        <option value="calibration">Calibration</option>
+        <option value="parts">Parts</option>
+      </select>
+    </div>
+
+    <div id="video-list" class="videos-grid">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'video_item' %}
+            <article class="card video-item" data-tags="{{ block.settings.tags }}" {{ block.shopify_attributes }}>
+              {% if block.settings.thumbnail != blank %}
+                <div class="video-thumbnail">
+                  <img src="{{ block.settings.thumbnail | image_url: width: 600 }}" alt="{{ block.settings.title }}">
+                  {% if block.settings.duration != blank %}
+                    <span class="video-duration">{{ block.settings.duration }}</span>
+                  {% endif %}
+                </div>
+              {% endif %}
+              <div class="card__body">
+                <h3 class="video-title">{{ block.settings.title }}</h3>
+                <p class="video-description">{{ block.settings.description }}</p>
+                {% if block.settings.video_url != blank %}
+                  <a href="{{ block.settings.video_url }}" class="btn-primary" target="_blank" rel="noopener">Watch Video</a>
+                {% endif %}
+              </div>
+            </article>
+        {% endcase %}
+      {% endfor %}
+    </div>
+
+    <div id="no-results" class="no-results-message">
+      <p>No videos found matching your search.</p>
+    </div>
+</section>
+
+<script>
+  (function() {
+    const search = document.getElementById('video-search');
+    const filter = document.getElementById('video-filter');
+    const list = document.getElementById('video-list');
+    const noResults = document.getElementById('no-results');
+    
+    function applyFilter() {
+      const query = search.value.toLowerCase().trim();
+      const selectedTag = filter.value;
+      const items = list.querySelectorAll('.video-item');
+      let visibleCount = 0;
+      
+      items.forEach(item => {
+        const title = item.querySelector('.video-title').innerText.toLowerCase();
+        const description = item.querySelector('.video-description').innerText.toLowerCase();
+        const tags = item.dataset.tags || '';
+        
+        const matchesSearch = !query || title.includes(query) || description.includes(query);
+        const matchesFilter = selectedTag === 'all' || tags.includes(selectedTag);
+        
+        if (matchesSearch && matchesFilter) {
+          item.style.display = '';
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      
+      // Show/hide no results message
+      if (visibleCount === 0) {
+        list.style.display = 'none';
+        noResults.style.display = 'block';
+      } else {
+        list.style.display = 'grid';
+        noResults.style.display = 'none';
+      }
+    }
+    
+    if (search && filter) {
+      search.addEventListener('input', applyFilter);
+      filter.addEventListener('change', applyFilter);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Videos Page",
+  "settings": [
+    { "type": "select", "id": "section_width", "label": "Width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ], "default": "page-width" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+    { "type": "text", "id": "title", "label": "Title", "default": "Video Guides" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Step-by-step repair videos for niche 3D printers" }
+  ],
+  "blocks": [
+    {
+      "type": "video_item",
+      "name": "Video Item",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Video Title", "default": "Repair Guide Video" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Short walkthrough and diagnostics" },
+        { "type": "image_picker", "id": "thumbnail", "label": "Thumbnail Image" },
+        { "type": "url", "id": "video_url", "label": "Video URL (YouTube, Vimeo, etc.)" },
+        { "type": "text", "id": "duration", "label": "Duration (e.g., 5:23)" },
+        { "type": "text", "id": "tags", "label": "Tags (comma-separated: flsun, generic, firmware, etc.)", "default": "generic" }
+      ]
+    }
+  ],
+  "presets": [
+    { 
+      "name": "Videos Page",
+      "blocks": [
+        {
+          "type": "video_item",
+          "settings": {
+            "title": "Fixing layer shifting — FLSUN T1 Pro",
+            "description": "Short walkthrough and diagnostics for common layer shifting issues.",
+            "tags": "flsun",
+            "duration": "8:45"
+          }
+        },
+        {
+          "type": "video_item",
+          "settings": {
+            "title": "Nozzle clog deep clean — Generic Bowden",
+            "description": "Step-by-step cleaning and preventive tips.",
+            "tags": "generic",
+            "duration": "12:30"
+          }
+        },
+        {
+          "type": "video_item",
+          "settings": {
+            "title": "Firmware tuning for off-brand boards",
+            "description": "Guide to flashing and configuring firmware settings.",
+            "tags": "firmware",
+            "duration": "15:20"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

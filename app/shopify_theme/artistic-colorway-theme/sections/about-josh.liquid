@@ -1,7 +1,7 @@
-<section class="about-josh-section section-surface">
-  <div class="container">
-    <div class="about-josh-grid">
-      <div class="josh-profile">
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section id="about-josh" class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="about-josh-grid">
+    <div class="josh-profile">
         {% if section.settings.josh_image %}
           <img src="{{ section.settings.josh_image | image_url: width: 400 }}"
                alt="Josh Mantilla" class="josh-image">
@@ -12,22 +12,21 @@
             {{ section.settings.description }}
           </div>
         </div>
-      </div>
+    </div>
 
-      <div class="credentials-grid">
-        {% for block in section.blocks %}
-          {% case block.type %}
-            {% when 'credential' %}
-              <div class="credential-item card">
-                {% if block.settings.icon %}
-                  <i class="{{ block.settings.icon }}" aria-hidden="true"></i>
-                {% endif %}
-                <h3>{{ block.settings.title }}</h3>
-                <p>{{ block.settings.description }}</p>
-              </div>
-          {% endcase %}
-        {% endfor %}
-      </div>
+    <div class="credentials-grid">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'credential' %}
+            <div class="credential-item card">
+              {% if block.settings.icon %}
+                <i class="{{ block.settings.icon }}" aria-hidden="true"></i>
+              {% endif %}
+              <h3>{{ block.settings.title }}</h3>
+              <p>{{ block.settings.description }}</p>
+            </div>
+        {% endcase %}
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -36,6 +35,10 @@
 {
   "name": "About Josh Mantilla",
   "settings": [
+    { "type": "select", "id": "section_width", "label": "Width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ], "default": "page-width" },
+  { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
     {
       "type": "text",
       "id": "title",
@@ -63,7 +66,7 @@
           "type": "text",
           "id": "icon",
           "label": "Icon class (optional)",
-          "default": ""
+          "default": "fas fa-tools"
         },
         {
           "type": "text",

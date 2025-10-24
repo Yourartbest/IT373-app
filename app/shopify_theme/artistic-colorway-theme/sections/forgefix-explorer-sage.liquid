@@ -1,18 +1,22 @@
-<section class="forgefix explorer-sage-section section-surface">
-  <div class="container">
-    <div class="explorer-sage-content">
-      <h1 class="section-title">{{ section.settings.title }}</h1>
-      <p class="section-subtitle">{{ section.settings.subtitle }}</p>
-      <p class="section-description">{{ section.settings.description }}</p>
-      
-      {% if section.settings.show_cta %}
-        <div class="section-actions">
-          <a href="{{ section.settings.cta_link }}" class="btn-primary">
-            {{ section.settings.cta_text }}
-          </a>
-        </div>
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style"
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <div class="explorer-sage-content">
+    <h1 class="section-title">{{ section.settings.title }}</h1>
+    <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+    <p class="section-description">{{ section.settings.description }}</p>
+
+    {% if section.settings.show_cta %}
+      {% assign href = section.settings.cta_link %}
+      {% if section.settings.cta_anchor != blank %}
+        {% assign href = section.settings.cta_anchor %}
       {% endif %}
-    </div>
+      <div class="section-actions">
+        <a href="{{ href }}" class="button">{{ section.settings.cta_text }}</a>
+      </div>
+    {% endif %}
   </div>
 </section>
 
@@ -20,6 +24,19 @@
 {
   "name": "ForgeFix Explorer/Sage",
   "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+  { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
     {
       "type": "text",
       "id": "title",
@@ -48,13 +65,18 @@
       "type": "text",
       "id": "cta_text",
       "label": "Button Text",
-      "default": "Browse Repair Guides"
+      "default": "Join Our Community"
+    },
+    {
+      "type": "text",
+      "id": "cta_anchor",
+      "label": "Button Anchor (optional)",
+      "default": "#newsletter-signup"
     },
     {
       "type": "url",
       "id": "cta_link",
-      "label": "Button Link",
-      "default": "/pages/guides"
+      "label": "Button Link"
     }
   ],
   "presets": [

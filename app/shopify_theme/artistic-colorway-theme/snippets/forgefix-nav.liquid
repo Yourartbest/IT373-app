@@ -1,0 +1,27 @@
+<nav class="forgefix-nav">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="{{ routes.root_url }}" class="nav-brand-link">
+        <span class="nav-title">ForgeFix</span>
+      </a>
+    </div>
+
+    <ul class="nav-menu">
+      <li><a href="{{ routes.root_url }}">Home</a></li>
+      <li><a href="{{ routes.collections_url }}">Catalog</a></li>
+      <li><a href="/pages/videos">Videos</a></li>
+      <li><a href="/pages/documents">Documents</a></li>
+      <li><a href="{{ routes.page_url }}contact">Contact</a></li>
+      <li>
+        <a href="{{ routes.account_url }}" class="account-link">
+          <i class="fas fa-user" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li>
+        <a href="{{ routes.cart_url }}" class="cart-link">
+          <i class="fas fa-shopping-bag" aria-hidden="true"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

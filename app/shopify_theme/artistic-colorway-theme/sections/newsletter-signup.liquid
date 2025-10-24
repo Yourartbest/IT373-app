@@ -1,5 +1,5 @@
-<section class="forgefix newsletter-signup section-surface">
-  <div class="container">
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section id="newsletter-signup" class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
     <header class="section-header">
       <h2 class="section-title">{{ section.settings.title }}</h2>
       {% if section.settings.subtitle != blank %}
@@ -28,7 +28,7 @@
                  autocapitalize="off"
                  autocomplete="email"
                  aria-required="true" />
-          <button class="btn-primary" type="submit">{{ section.settings.button_text }}</button>
+          <button class="button" type="submit">{{ section.settings.button_text }}</button>
         </div>
 
         {% if section.settings.disclaimer != blank %}
@@ -36,13 +36,16 @@
         {% endif %}
       {% endif %}
     {% endform %}
-  </div>
 </section>
 
 {% schema %}
 {
   "name": "Newsletter Signup",
   "settings": [
+    { "type": "select", "id": "section_width", "label": "Width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ], "default": "page-width" },
+  { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 24 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 24 },
     { "type": "text", "id": "title", "label": "Title", "default": "Subscribe to ForgeFix Updates" },
     { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Tips, guides, and diagnostics straight to your inbox" },
     { "type": "text", "id": "email_label", "label": "Email Label (a11y)", "default": "Email address" },
