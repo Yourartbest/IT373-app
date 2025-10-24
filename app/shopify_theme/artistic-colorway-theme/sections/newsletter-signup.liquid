@@ -1,0 +1,58 @@
+<section class="forgefix newsletter-signup section-surface">
+  <div class="container">
+    <header class="section-header">
+      <h2 class="section-title">{{ section.settings.title }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </header>
+
+    {% form 'customer', id: 'ForgeFixNewsletterForm', class: 'newsletter-form' %}
+      {% if form.posted_successfully? %}
+        <p class="success" role="status">{{ section.settings.success_message }}</p>
+      {% else %}
+        {% if form.errors %}
+          <div class="error" role="alert">{{ form.errors | default_errors }}</div>
+        {% endif %}
+
+        <div class="newsletter-fields" style="display:flex; gap:8px; align-items:center;">
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label for="NewsletterEmail" class="visually-hidden">{{ section.settings.email_label }}</label>
+          <input id="NewsletterEmail"
+                 type="email"
+                 name="contact[email]"
+                 class="newsletter-input"
+                 value="{{ form.email }}"
+                 placeholder="{{ section.settings.placeholder }}"
+                 required
+                 autocapitalize="off"
+                 autocomplete="email"
+                 aria-required="true" />
+          <button class="btn-primary" type="submit">{{ section.settings.button_text }}</button>
+        </div>
+
+        {% if section.settings.disclaimer != blank %}
+          <p class="muted" style="margin-top:6px;">{{ section.settings.disclaimer }}</p>
+        {% endif %}
+      {% endif %}
+    {% endform %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter Signup",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "Subscribe to ForgeFix Updates" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Tips, guides, and diagnostics straight to your inbox" },
+    { "type": "text", "id": "email_label", "label": "Email Label (a11y)", "default": "Email address" },
+    { "type": "text", "id": "placeholder", "label": "Email Placeholder", "default": "you@example.com" },
+    { "type": "text", "id": "button_text", "label": "Button Text", "default": "Subscribe" },
+    { "type": "text", "id": "success_message", "label": "Success Message", "default": "Thanks for subscribing!" },
+    { "type": "text", "id": "disclaimer", "label": "Disclaimer", "default": "We send useful updates only. Unsubscribe anytime." }
+  ],
+  "presets": [
+    { "name": "Newsletter Signup" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,89 @@
+<section class="about-josh-section section-surface">
+  <div class="container">
+    <div class="about-josh-grid">
+      <div class="josh-profile">
+        {% if section.settings.josh_image %}
+          <img src="{{ section.settings.josh_image | image_url: width: 400 }}"
+               alt="Josh Mantilla" class="josh-image">
+        {% endif %}
+        <div class="josh-bio">
+          <h2>{{ section.settings.title }}</h2>
+          <div class="josh-description">
+            {{ section.settings.description }}
+          </div>
+        </div>
+      </div>
+
+      <div class="credentials-grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'credential' %}
+              <div class="credential-item card">
+                {% if block.settings.icon %}
+                  <i class="{{ block.settings.icon }}" aria-hidden="true"></i>
+                {% endif %}
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.description }}</p>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Josh Mantilla",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "About Josh Mantilla"
+    },
+    {
+      "type": "image_picker",
+      "id": "josh_image",
+      "label": "Josh's Photo"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Bio Description",
+      "default": "<p>Founder of ForgeFix. Explorer/Sage archetype: grounded, hands-on expertise in niche 3D printers, remote diagnostics, firmware tuning, and parts sourcing.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "credential",
+      "name": "Credential",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon class (optional)",
+          "default": ""
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Credential Title",
+          "default": "Certified Repair Technician"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Credential Description",
+          "default": "Specialized in diagnostics and firmware calibration for boutique 3D printers."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Josh Mantilla"
+    }
+  ]
+}
+{% endschema %}

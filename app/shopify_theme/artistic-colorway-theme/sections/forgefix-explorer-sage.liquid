@@ -1,0 +1,66 @@
+<section class="forgefix explorer-sage-section section-surface">
+  <div class="container">
+    <div class="explorer-sage-content">
+      <h1 class="section-title">{{ section.settings.title }}</h1>
+      <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+      <p class="section-description">{{ section.settings.description }}</p>
+      
+      {% if section.settings.show_cta %}
+        <div class="section-actions">
+          <a href="{{ section.settings.cta_link }}" class="btn-primary">
+            {{ section.settings.cta_text }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "ForgeFix Explorer/Sage",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "ForgeFix — 3D Printer Repair Hub"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Explorer/Sage: grounded expertise for niche 3D printers"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Model-specific guides • Remote diagnostics • Firmware tuning • Parts sourcing"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show Call to Action",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "Browse Repair Guides"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link",
+      "default": "/pages/guides"
+    }
+  ],
+  "presets": [
+    {
+      "name": "ForgeFix Explorer/Sage"
+    }
+  ]
+}
+{% endschema %}

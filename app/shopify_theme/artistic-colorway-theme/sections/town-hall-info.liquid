@@ -1,0 +1,89 @@
+<section class="forgefix town-hall section-surface">
+  <div class="container">
+    <header class="section-header">
+      <h2 class="section-title">{{ section.settings.title }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </header>
+
+    <div class="town-hall-grid grid">
+      <article class="card town-hall-details">
+        <div class="card__body">
+          <p><strong>Date:</strong> {{ section.settings.date }}</p>
+          <p><strong>Time:</strong> {{ section.settings.time }}</p>
+          <p><strong>Location:</strong> {{ section.settings.location }}</p>
+          {% if section.settings.virtual_link != blank %}
+            <p><strong>Virtual:</strong> <a href="{{ section.settings.virtual_link }}" class="text-accent">Join online</a></p>
+          {% endif %}
+        </div>
+      </article>
+
+      <article class="card town-hall-description">
+        <div class="card__body">
+          {{ section.settings.description }}
+        </div>
+      </article>
+    </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="agenda section">
+        <h3>Agenda</h3>
+        <div class="grid">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'agenda_item' %}
+                <div class="card agenda-item" {{ block.shopify_attributes }}>
+                  <div class="card__body">
+                    {% if block.settings.time != blank %}
+                      <p class="muted" style="margin:0 0 6px;">{{ block.settings.time }}</p>
+                    {% endif %}
+                    <h4 class="card__title" style="margin:0 0 6px;">{{ block.settings.title }}</h4>
+                    <p class="card__text">{{ block.settings.note }}</p>
+                  </div>
+                </div>
+            {% endcase %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if section.settings.show_cta %}
+      <div class="section-actions" style="margin-top:16px;">
+        <a href="{{ section.settings.cta_link }}" class="btn-primary">{{ section.settings.cta_text }}</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Town Hall Info",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "ForgeFix Town Hall" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Monthly community Q&A, demos, and tips" },
+    { "type": "text", "id": "date", "label": "Date", "default": "First Tuesday of each month" },
+    { "type": "text", "id": "time", "label": "Time", "default": "6:00 PM – 7:30 PM (local)" },
+    { "type": "text", "id": "location", "label": "Location", "default": "Remote (Online)" },
+    { "type": "url", "id": "virtual_link", "label": "Virtual Meeting Link" },
+    { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Join our monthly town hall for live troubleshooting, firmware tuning tips, and Q&A for niche 3D printers.</p>" },
+    { "type": "checkbox", "id": "show_cta", "label": "Show Call To Action", "default": true },
+    { "type": "text", "id": "cta_text", "label": "CTA Text", "default": "RSVP" },
+    { "type": "url", "id": "cta_link", "label": "CTA Link", "default": "/pages/town-hall" }
+  ],
+  "blocks": [
+    {
+      "type": "agenda_item",
+      "name": "Agenda item",
+      "settings": [
+        { "type": "text", "id": "time", "label": "Time" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Welcome & Updates" },
+        { "type": "text", "id": "note", "label": "Note", "default": "Announcements and recent fixes" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Town Hall Info" }
+  ]
+}
+{% endschema %}
