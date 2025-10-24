@@ -1,0 +1,117 @@
+<!doctype html>
+<!-- name = Josh Mantilla; date: 10/23/25; IT373; © Josh Mantilla -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ForgeFix — Videos</title>
+  <link rel="stylesheet" href="styles.css?v=20251023">
+</head>
+<body>
+  <header id="top" class="site-header">
+    <div class="brand">
+      <h1><a class="brand-link" href="index.html">ForgeFix</a></h1>
+    </div>
+
+    <div class="nav-row">
+      <nav class="nav-left">
+        <a href="index.html">Home</a>
+        <a href="videos.html">Videos</a>
+        <a href="docs.html">Documentation</a>
+        <a href="repair.html" class="cta">Repair Services</a>
+      </nav>
+
+      <nav class="nav-right">
+        <a href="login.html">Login / Register</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <h2>Video Guides</h2>
+
+      <div class="filter-bar">
+        <input id="video-search" placeholder="Search videos" />
+        <select id="video-filter">
+          <option value="all">All models</option>
+          <option value="flsun">FLSUN</option>
+          <option value="generic">Generic</option>
+          <option value="firmware">Firmware</option>
+        </select>
+      </div>
+
+      <div id="video-list" class="scroll-list">
+        <article class="item" data-tags="flsun">
+          <h3>Fixing layer shifting — FLSUN T1 Pro</h3>
+          <p>Short walkthrough and diagnostics.</p>
+        </article>
+        <article class="item" data-tags="generic">
+          <h3>Nozzle clog deep clean — Generic Bowden</h3>
+          <p>Step-by-step cleaning and preventive tips.</p>
+        </article>
+        <article class="item" data-tags="firmware">
+          <h3>Firmware tuning for off-brand boards (video)</h3>
+          <p>Guide to flashing and settings.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>ForgeFix</h3>
+          <p class="footer-text">Repair guides & help for niche 3D printers</p>
+          <ul class="footer-contact">
+            <li><strong>Phone:</strong> <a href="tel:+10000000000">+1 (000) 000-0000</a></li>
+            <li><strong>Email:</strong> <a href="mailto:support@forgefix.example">support@forgefix.example</a></li>
+            <li><strong>Location:</strong> Remote, Online</li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>RESOURCES</h4>
+          <ul class="footer-links">
+            <li><a href="docs.html">Guides</a></li>
+            <li><a href="videos.html">Videos</a></li>
+            <li><a href="docs.html">Documentation</a></li>
+            <li><a href="repair.html">Repair Services</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>QUICK LINKS</h4>
+          <ul class="footer-links">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="mailto:support@forgefix.example">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+      <p>&copy; 2025 ForgeFix. All rights reserved.</p>
+      <p><a href="#top">Back to Top ↑</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const search = document.getElementById('video-search');
+    const filter = document.getElementById('video-filter');
+    const list = document.getElementById('video-list');
+    function applyFilter(){
+      const q = search.value.toLowerCase();
+      const tag = filter.value;
+      Array.from(list.children).forEach(item=>{
+        const title = item.querySelector('h3').innerText.toLowerCase();
+        const tags = item.dataset.tags || '';
+        const matchesQ = !q || title.includes(q);
+        const matchesTag = tag==='all' || tags.includes(tag);
+        item.style.display = (matchesQ && matchesTag)?'' : 'none';
+      });
+    }
+    search.addEventListener('input', applyFilter);
+    filter.addEventListener('change', applyFilter);
+  </script>
+</body>
+</html>
