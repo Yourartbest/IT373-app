@@ -12,6 +12,113 @@
         "cta_link": "shopify://collections/all"
       }
     },
+    "featured-videos": {
+      "type": "featured-videos-carousel",
+      "settings": {
+        "title": "Featured Video Guides",
+        "subtitle": "Quick repair tutorials and troubleshooting tips",
+        "show_view_all": true
+      },
+      "blocks": {
+        "video_1": {
+          "type": "video_card",
+          "settings": {
+            "title": "Fixing layer shifting — FLSUN T1 Pro",
+            "description": "Diagnose and fix layer shifting issues",
+            "duration": "8:45"
+          }
+        },
+        "video_2": {
+          "type": "video_card",
+          "settings": {
+            "title": "Nozzle clog deep clean",
+            "description": "Complete cleaning and prevention guide",
+            "duration": "12:30"
+          }
+        },
+        "video_3": {
+          "type": "video_card",
+          "settings": {
+            "title": "Firmware tuning basics",
+            "description": "Essential Marlin configuration steps",
+            "duration": "15:20"
+          }
+        },
+        "video_4": {
+          "type": "video_card",
+          "settings": {
+            "title": "Bed leveling perfection",
+            "description": "Get flawless first layers every time",
+            "duration": "10:15"
+          }
+        },
+        "video_5": {
+          "type": "video_card",
+          "settings": {
+            "title": "Hotend replacement guide",
+            "description": "Complete hotend swap tutorial",
+            "duration": "18:45"
+          }
+        }
+      },
+      "block_order": ["video_1", "video_2", "video_3", "video_4", "video_5"]
+    },
+    "featured-docs": {
+      "type": "featured-docs-carousel",
+      "settings": {
+        "title": "Featured Documentation",
+        "subtitle": "Essential guides and technical resources",
+        "show_view_all": true
+      },
+      "blocks": {
+        "doc_1": {
+          "type": "document_card",
+          "settings": {
+            "title": "Firmware tuning for off-brand boards",
+            "description": "Configuration guide for obscure controllers",
+            "icon": "microchip",
+            "file_type": "PDF"
+          }
+        },
+        "doc_2": {
+          "type": "document_card",
+          "settings": {
+            "title": "Parts compatibility matrix",
+            "description": "Hotend and extruder compatibility reference",
+            "icon": "tools",
+            "file_type": "Reference"
+          }
+        },
+        "doc_3": {
+          "type": "document_card",
+          "settings": {
+            "title": "Diagnostics checklist",
+            "description": "Systematic troubleshooting guide",
+            "icon": "file-alt",
+            "file_type": "Guide"
+          }
+        },
+        "doc_4": {
+          "type": "document_card",
+          "settings": {
+            "title": "Calibration procedures",
+            "description": "Complete calibration walkthrough",
+            "icon": "cog",
+            "file_type": "Tutorial"
+          }
+        },
+        "doc_5": {
+          "type": "document_card",
+          "settings": {
+            "title": "Marlin firmware setup",
+            "description": "Complete Marlin configuration guide",
+            "icon": "microchip",
+            "file_type": "PDF"
+          }
+        }
+      },
+      "block_order": ["doc_1", "doc_2", "doc_3", "doc_4", "doc_5"]
+    },
     "about-josh": {
       "type": "about-josh",
       "settings": {
@@ -46,48 +153,6 @@
       },
       "block_order": ["credential_1", "credential_2", "credential_3"]
     },
-    "town-hall-info": {
-      "type": "town-hall-info",
-      "settings": {
-        "title": "ForgeFix Town Hall",
-        "subtitle": "Monthly community Q&A, demos, and tips",
-        "date": "First Tuesday of each month",
-        "time": "6:00 PM – 7:30 PM (local)",
-        "location": "Remote (Online)",
-  "virtual_link": "",
-        "description": "<p>Join our monthly town hall for live troubleshooting, firmware tuning tips, and Q&A for niche 3D printers.</p>",
-        "show_cta": true,
-        "cta_text": "RSVP",
-        "cta_link": "shopify://pages/town-hall"
-      },
-      "blocks": {
-        "agenda_1": {
-          "type": "agenda_item",
-          "settings": {
-            "time": "6:00 PM",
-            "title": "Welcome & Updates",
-            "note": "Announcements and recent fixes"
-          }
-        },
-        "agenda_2": {
-          "type": "agenda_item",
-          "settings": {
-            "time": "6:15 PM",
-            "title": "Live Diagnostics",
-            "note": "Troubleshoot a community-submitted printer"
-          }
-        },
-        "agenda_3": {
-          "type": "agenda_item",
-          "settings": {
-            "time": "7:00 PM",
-            "title": "Firmware Tips",
-            "note": "Marlin/Klipper tuning Q&A"
-          }
-        }
-      },
-      "block_order": ["agenda_1", "agenda_2", "agenda_3"]
-    },
     "newsletter-signup": {
       "type": "newsletter-signup",
       "settings": {
@@ -103,8 +168,9 @@
   },
   "order": [
     "forgefix-explorer-sage",
+    "featured-videos",
+    "featured-docs",
     "about-josh",
-    "town-hall-info",
     "newsletter-signup"
   ]
 }

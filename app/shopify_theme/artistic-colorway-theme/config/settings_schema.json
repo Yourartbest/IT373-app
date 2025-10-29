@@ -8,6 +8,61 @@
     "theme_support_url": "https://support.shopify.com/"
   },
   {
+  "name": "ForgeFix Branding",
+  "settings": [
+      {
+        "type": "header",
+        "content": "Brand Identity"
+      },
+      {
+        "type": "text",
+        "id": "site_title",
+        "label": "Site Title",
+        "default": "ForgeFix"
+      },
+      {
+        "type": "text",
+        "id": "site_subtitle",
+        "label": "Site Subtitle",
+        "default": "Explorer/Sage — 3D Printer Repair Hub"
+      },
+      {
+        "type": "textarea",
+        "id": "site_tagline",
+        "label": "Site Tagline",
+        "default": "Model-specific guides • Remote diagnostics • Firmware tuning • Parts sourcing"
+      },
+      {
+        "type": "header",
+        "content": "Colors — ForgeFix Palette"
+      },
+      {
+        "type": "color",
+        "id": "brand_primary",
+        "label": "Primary (Charcoal Black)",
+        "default": "#2c2c2c"
+      },
+      {
+        "type": "color",
+        "id": "brand_accent",
+        "label": "Accent (Warm Amber)",
+        "default": "#f5a623"
+      },
+      {
+        "type": "color",
+        "id": "brand_background",
+        "label": "Background (Pure White)",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "brand_surface",
+        "label": "Section Background (Light Gray)",
+        "default": "#f9f9f9"
+      }
+    ]
+  },
+  {
     "name": "t:names.logo_and_favicon",
     "settings": [
       {

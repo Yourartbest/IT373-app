@@ -28,23 +28,28 @@
       {% for block in section.blocks %}
         {% case block.type %}
           {% when 'video_item' %}
-            <article class="card video-item" data-tags="{{ block.settings.tags }}" {{ block.shopify_attributes }}>
-              {% if block.settings.thumbnail != blank %}
-                <div class="video-thumbnail">
+            <a href="{{ block.settings.video_url }}" class="card video-item video-card-link-wrapper" data-tags="{{ block.settings.tags }}" target="_blank" rel="noopener" {{ block.shopify_attributes }}>
+              <div class="video-thumbnail">
+                {% if block.settings.thumbnail != blank %}
                   <img src="{{ block.settings.thumbnail | image_url: width: 600 }}" alt="{{ block.settings.title }}">
-                  {% if block.settings.duration != blank %}
-                    <span class="video-duration">{{ block.settings.duration }}</span>
-                  {% endif %}
-                </div>
-              {% endif %}
+                  <div class="video-card-overlay">
+                    <i class="fas fa-play-circle"></i>
+                  </div>
+                {% else %}
+                  <div class="video-card-placeholder">
+                    <i class="fas fa-video"></i>
+                    <span>Video Thumbnail</span>
+                  </div>
+                {% endif %}
+                {% if block.settings.duration != blank %}
+                  <span class="video-duration">{{ block.settings.duration }}</span>
+                {% endif %}
+              </div>
               <div class="card__body">
                 <h3 class="video-title">{{ block.settings.title }}</h3>
                 <p class="video-description">{{ block.settings.description }}</p>
-                {% if block.settings.video_url != blank %}
-                  <a href="{{ block.settings.video_url }}" class="btn-primary" target="_blank" rel="noopener">Watch Video</a>
-                {% endif %}
               </div>
-            </article>
+            </a>
         {% endcase %}
       {% endfor %}
     </div>

@@ -1,0 +1,155 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+    <header class="section-header">
+      <h2 class="section-title">{{ section.settings.title }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </header>
+
+    <div class="horizontal-scroll-wrapper">
+      <button class="scroll-btn scroll-btn-left" aria-label="Scroll left">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      
+      <div class="horizontal-scroll-container">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'video_card' %}
+              <a href="{{ block.settings.video_url | default: '#' }}" class="video-card-horizontal video-card-link-wrapper" {{ block.shopify_attributes }} {% if block.settings.video_url != blank %}target="_blank" rel="noopener"{% endif %}>
+                <div class="video-card-thumbnail">
+                  {% if block.settings.thumbnail != blank %}
+                    <img src="{{ block.settings.thumbnail | image_url: width: 400 }}" alt="{{ block.settings.title }}" loading="lazy">
+                  {% else %}
+                    <div class="video-card-placeholder">
+                      <i class="fas fa-video"></i>
+                      <span>Video Thumbnail</span>
+                    </div>
+                  {% endif %}
+                  {% if block.settings.duration != blank %}
+                    <span class="video-card-duration">{{ block.settings.duration }}</span>
+                  {% endif %}
+                  <div class="video-card-overlay">
+                    <i class="fas fa-play-circle"></i>
+                  </div>
+                </div>
+                <div class="video-card-body">
+                  <h3 class="video-card-title">{{ block.settings.title }}</h3>
+                  <p class="video-card-description">{{ block.settings.description }}</p>
+                </div>
+              </a>
+          {% endcase %}
+        {% endfor %}
+      </div>
+      
+      <button class="scroll-btn scroll-btn-right" aria-label="Scroll right">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    {% if section.settings.show_view_all %}
+      <div class="section-actions" style="margin-top: 24px; text-align: center;">
+        <a href="/pages/videos" class="btn-primary">View All Videos</a>
+      </div>
+    {% endif %}
+</section>
+
+<script>
+  (function() {
+    const container = document.querySelector('.horizontal-scroll-container');
+    const leftBtn = document.querySelector('.scroll-btn-left');
+    const rightBtn = document.querySelector('.scroll-btn-right');
+    
+    if (container && leftBtn && rightBtn) {
+      const scrollAmount = 320; // Width of one card plus gap
+      
+      leftBtn.addEventListener('click', () => {
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      });
+      
+      rightBtn.addEventListener('click', () => {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      });
+      
+      // Update button visibility based on scroll position
+      function updateButtons() {
+        leftBtn.style.opacity = container.scrollLeft > 0 ? '1' : '0.3';
+        leftBtn.style.pointerEvents = container.scrollLeft > 0 ? 'auto' : 'none';
+        
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        rightBtn.style.opacity = container.scrollLeft < maxScroll - 1 ? '1' : '0.3';
+        rightBtn.style.pointerEvents = container.scrollLeft < maxScroll - 1 ? 'auto' : 'none';
+      }
+      
+      container.addEventListener('scroll', updateButtons);
+      updateButtons();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Featured Videos Carousel",
+  "settings": [
+    { "type": "select", "id": "section_width", "label": "Width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ], "default": "page-width" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+    { "type": "text", "id": "title", "label": "Title", "default": "Featured Video Guides" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Quick repair tutorials and troubleshooting tips" },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show 'View All' button", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "video_card",
+      "name": "Video Card",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Video Title", "default": "Repair Guide Video" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Quick walkthrough" },
+        { "type": "image_picker", "id": "thumbnail", "label": "Thumbnail Image" },
+        { "type": "url", "id": "video_url", "label": "Video URL" },
+        { "type": "text", "id": "duration", "label": "Duration", "default": "5:30" }
+      ]
+    }
+  ],
+  "presets": [
+    { 
+      "name": "Featured Videos Carousel",
+      "blocks": [
+        {
+          "type": "video_card",
+          "settings": {
+            "title": "Fixing layer shifting — FLSUN T1 Pro",
+            "description": "Diagnose and fix layer shifting issues",
+            "duration": "8:45"
+          }
+        },
+        {
+          "type": "video_card",
+          "settings": {
+            "title": "Nozzle clog deep clean",
+            "description": "Complete cleaning guide",
+            "duration": "12:30"
+          }
+        },
+        {
+          "type": "video_card",
+          "settings": {
+            "title": "Firmware tuning basics",
+            "description": "Essential Marlin configuration",
+            "duration": "15:20"
+          }
+        },
+        {
+          "type": "video_card",
+          "settings": {
+            "title": "Bed leveling perfection",
+            "description": "Get flawless first layers",
+            "duration": "10:15"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

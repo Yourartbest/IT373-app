@@ -1,0 +1,171 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+    <header class="section-header">
+      <h2 class="section-title">{{ section.settings.title }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </header>
+
+    <div class="horizontal-scroll-wrapper">
+      <button class="scroll-btn scroll-btn-left" aria-label="Scroll left">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      
+      <div class="horizontal-scroll-container">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'document_card' %}
+              <article class="document-card-horizontal" {{ block.shopify_attributes }}>
+                <div class="document-card-icon">
+                  <i class="fas fa-{{ block.settings.icon }}" aria-hidden="true"></i>
+                </div>
+                <div class="document-card-body">
+                  <h3 class="document-card-title">{{ block.settings.title }}</h3>
+                  <p class="document-card-description">{{ block.settings.description }}</p>
+                  {% if block.settings.file_type != blank %}
+                    <span class="document-card-badge">{{ block.settings.file_type }}</span>
+                  {% endif %}
+                  {% if block.settings.document_url != blank %}
+                    <a href="{{ block.settings.document_url }}" class="document-card-link" {% if block.settings.open_new_tab %}target="_blank" rel="noopener"{% endif %}>
+                      Read More <i class="fas fa-arrow-right"></i>
+                    </a>
+                  {% endif %}
+                </div>
+              </article>
+          {% endcase %}
+        {% endfor %}
+      </div>
+      
+      <button class="scroll-btn scroll-btn-right" aria-label="Scroll right">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    {% if section.settings.show_view_all %}
+      <div class="section-actions" style="margin-top: 24px; text-align: center;">
+        <a href="/pages/documents" class="btn-primary">View All Documentation</a>
+      </div>
+    {% endif %}
+</section>
+
+<script>
+  (function() {
+    const containers = document.querySelectorAll('.horizontal-scroll-container');
+    
+    containers.forEach(container => {
+      const wrapper = container.closest('.horizontal-scroll-wrapper');
+      const leftBtn = wrapper.querySelector('.scroll-btn-left');
+      const rightBtn = wrapper.querySelector('.scroll-btn-right');
+      
+      if (container && leftBtn && rightBtn) {
+        const scrollAmount = 320;
+        
+        leftBtn.addEventListener('click', () => {
+          container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+        
+        rightBtn.addEventListener('click', () => {
+          container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+        
+        function updateButtons() {
+          leftBtn.style.opacity = container.scrollLeft > 0 ? '1' : '0.3';
+          leftBtn.style.pointerEvents = container.scrollLeft > 0 ? 'auto' : 'none';
+          
+          const maxScroll = container.scrollWidth - container.clientWidth;
+          rightBtn.style.opacity = container.scrollLeft < maxScroll - 1 ? '1' : '0.3';
+          rightBtn.style.pointerEvents = container.scrollLeft < maxScroll - 1 ? 'auto' : 'none';
+        }
+        
+        container.addEventListener('scroll', updateButtons);
+        updateButtons();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Featured Docs Carousel",
+  "settings": [
+    { "type": "select", "id": "section_width", "label": "Width", "options": [ { "value": "page-width", "label": "Page width" }, { "value": "full-width", "label": "Full width" } ], "default": "page-width" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 32 },
+    { "type": "text", "id": "title", "label": "Title", "default": "Featured Documentation" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Essential guides and technical resources" },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show 'View All' button", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "document_card",
+      "name": "Document Card",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Document Title", "default": "Technical Guide" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Detailed guide for repairs" },
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "file-pdf", "label": "PDF Document" },
+          { "value": "file-alt", "label": "Text Document" },
+          { "value": "tools", "label": "Tools/Repair" },
+          { "value": "microchip", "label": "Firmware" },
+          { "value": "cog", "label": "Settings" },
+          { "value": "wrench", "label": "Wrench" },
+          { "value": "book", "label": "Book" }
+        ], "default": "file-alt" },
+        { "type": "url", "id": "document_url", "label": "Document URL" },
+        { "type": "select", "id": "file_type", "label": "File Type Badge", "options": [
+          { "value": "PDF", "label": "PDF" },
+          { "value": "Guide", "label": "Guide" },
+          { "value": "Tutorial", "label": "Tutorial" },
+          { "value": "Reference", "label": "Reference" }
+        ], "default": "PDF" },
+        { "type": "checkbox", "id": "open_new_tab", "label": "Open in new tab", "default": true }
+      ]
+    }
+  ],
+  "presets": [
+    { 
+      "name": "Featured Docs Carousel",
+      "blocks": [
+        {
+          "type": "document_card",
+          "settings": {
+            "title": "Firmware tuning for off-brand boards",
+            "description": "Configuration guide for obscure controllers",
+            "icon": "microchip",
+            "file_type": "PDF"
+          }
+        },
+        {
+          "type": "document_card",
+          "settings": {
+            "title": "Parts compatibility matrix",
+            "description": "Hotend and extruder compatibility reference",
+            "icon": "tools",
+            "file_type": "Reference"
+          }
+        },
+        {
+          "type": "document_card",
+          "settings": {
+            "title": "Diagnostics checklist",
+            "description": "Systematic troubleshooting guide",
+            "icon": "file-alt",
+            "file_type": "Guide"
+          }
+        },
+        {
+          "type": "document_card",
+          "settings": {
+            "title": "Calibration procedures",
+            "description": "Complete calibration walkthrough",
+            "icon": "cog",
+            "file_type": "Tutorial"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
