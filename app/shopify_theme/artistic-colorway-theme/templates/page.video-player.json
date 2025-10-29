@@ -1,0 +1,83 @@
+{
+  "sections": {
+    "video_player": {
+      "type": "video-player",
+      "blocks": {
+        "video_1": {
+          "type": "video_item",
+          "settings": {
+            "video_id": "flsun-setup",
+            "title": "FLSUN V400 Setup Guide",
+            "description": "Complete setup guide for the FLSUN V400 3D printer. Learn how to assemble, calibrate, and prepare your printer for its first print.",
+            "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            "embed_id": "dQw4w9WgXcQ",
+            "duration": "15:30",
+            "tags": "flsun, setup"
+          }
+        },
+        "video_2": {
+          "type": "video_item",
+          "settings": {
+            "video_id": "calibration-guide",
+            "title": "Complete Calibration Tutorial",
+            "description": "Step-by-step calibration process for optimal print quality. Covers bed leveling, E-steps, flow rate, and temperature tuning.",
+            "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            "embed_id": "dQw4w9WgXcQ",
+            "duration": "22:45",
+            "tags": "calibration, tutorial"
+          }
+        },
+        "video_3": {
+          "type": "video_item",
+          "settings": {
+            "video_id": "firmware-update",
+            "title": "Firmware Update Process",
+            "description": "How to safely update your 3D printer firmware. Includes backup procedures and troubleshooting common issues.",
+            "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            "embed_id": "dQw4w9WgXcQ",
+            "duration": "12:15",
+            "tags": "firmware, maintenance"
+          }
+        },
+        "video_4": {
+          "type": "video_item",
+          "settings": {
+            "video_id": "troubleshooting",
+            "title": "Common Issues & Solutions",
+            "description": "Fix the most common 3D printing problems. Learn to diagnose and resolve issues like bed adhesion, stringing, and layer shifts.",
+            "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            "embed_id": "dQw4w9WgXcQ",
+            "duration": "18:20",
+            "tags": "troubleshooting, tips"
+          }
+        },
+        "video_5": {
+          "type": "video_item",
+          "settings": {
+            "video_id": "advanced-settings",
+            "title": "Advanced Slicer Settings",
+            "description": "Deep dive into advanced slicer settings for perfect prints. Optimize supports, infill patterns, and print speeds.",
+            "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            "embed_id": "dQw4w9WgXcQ",
+            "duration": "25:10",
+            "tags": "advanced, settings"
+          }
+        }
+      },
+      "block_order": [
+        "video_1",
+        "video_2",
+        "video_3",
+        "video_4",
+        "video_5"
+      ],
+      "settings": {
+        "color_scheme": "scheme1",
+        "section_width": "standard"
+      }
+    }
+  },
+  "order": [
+    "video_player"
+  ]
+}

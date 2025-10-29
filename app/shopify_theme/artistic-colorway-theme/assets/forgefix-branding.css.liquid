@@ -963,6 +963,219 @@ textarea:focus {
     color: #ffffff;
 }
 
+/* Video Player Page Styles */
+.video-player-section {
+    padding: 40px 20px;
+}
+
+.video-player-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.video-embed-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 32px;
+    box-shadow: 0 8px 24px rgba(9,48,58,0.15);
+}
+
+.video-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.video-loading,
+.video-error,
+.video-placeholder-large {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: linear-gradient(135deg, #09303a 0%, #2b7a78 100%);
+    color: white;
+}
+
+.video-loading i,
+.video-error i,
+.video-placeholder-large i {
+    font-size: 4rem;
+    opacity: 0.9;
+}
+
+.video-error {
+    background: linear-gradient(135deg, #3a3a3a 0%, #5a5a5a 100%);
+}
+
+.video-error h2 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.video-error p,
+.video-placeholder-large p {
+    margin: 8px 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.video-error a {
+    color: #2b7a78;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.video-error a:hover {
+    color: #09303a;
+}
+
+.video-placeholder-large .btn-primary {
+    margin-top: 16px;
+}
+
+/* Video Details */
+.video-details {
+    background: white;
+    padding: 32px;
+    border-radius: 12px;
+    border: 2px solid #2b7a78;
+    box-shadow: 0 6px 18px rgba(9,48,58,0.1);
+    margin-bottom: 40px;
+}
+
+.video-player-title {
+    font-size: 2.2rem;
+    color: #09303a;
+    margin: 0 0 16px 0;
+    font-weight: 700;
+}
+
+.video-player-description {
+    color: #333;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.video-metadata {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.metadata-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.metadata-item i {
+    color: #2b7a78;
+    font-size: 1rem;
+}
+
+/* Related Videos Section */
+.related-videos-section {
+    margin-top: 48px;
+}
+
+.related-videos-title {
+    font-size: 1.8rem;
+    color: #09303a;
+    margin-bottom: 24px;
+    font-weight: 700;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #2b7a78;
+}
+
+.related-videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.related-video-card {
+    background: white;
+    border: 2px solid #2b7a78;
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 18px rgba(9,48,58,0.1);
+    cursor: pointer;
+}
+
+.related-video-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(9,48,58,0.2);
+    border-color: #09303a;
+}
+
+.related-video-thumbnail {
+    position: relative;
+    padding-bottom: 56.25%;
+    background: linear-gradient(135deg, #f0f0f0 0%, #e5e5e5 100%);
+    overflow: hidden;
+}
+
+.related-video-thumbnail img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.related-video-card:hover .related-video-thumbnail img {
+    transform: scale(1.05);
+}
+
+.related-video-info {
+    padding: 16px;
+}
+
+.related-video-info h3 {
+    font-size: 1.1rem;
+    margin: 0 0 8px 0;
+    color: #09303a;
+    font-weight: 600;
+}
+
+.related-video-info p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.no-related {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 40px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .credentials-grid,
@@ -978,6 +1191,19 @@ textarea:focus {
         flex-direction: column;
         gap: 10px;
     }
+    
+    .video-player-title {
+        font-size: 1.6rem;
+    }
+    
+    .video-details {
+        padding: 20px;
+    }
+    
+    .related-videos-grid {
+        grid-template-columns: 1fr;
+    }
+}
     
     .filter-input,
     .filter-select {

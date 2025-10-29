@@ -16,7 +16,7 @@
         {% for block in section.blocks %}
           {% case block.type %}
             {% when 'video_card' %}
-              <a href="{{ block.settings.video_url | default: '#' }}" class="video-card-horizontal video-card-link-wrapper" {{ block.shopify_attributes }} {% if block.settings.video_url != blank %}target="_blank" rel="noopener"{% endif %}>
+              <a href="/pages/video-player?v={{ block.settings.video_id | default: block.settings.title | handleize }}" class="video-card-horizontal video-card-link-wrapper" {{ block.shopify_attributes }}>
                 <div class="video-card-thumbnail">
                   {% if block.settings.thumbnail != blank %}
                     <img src="{{ block.settings.thumbnail | image_url: width: 400 }}" alt="{{ block.settings.title }}" loading="lazy">
@@ -104,10 +104,12 @@
       "type": "video_card",
       "name": "Video Card",
       "settings": [
+        { "type": "text", "id": "video_id", "label": "Video ID", "info": "Unique identifier for the video (e.g., 'flsun-setup')" },
         { "type": "text", "id": "title", "label": "Video Title", "default": "Repair Guide Video" },
         { "type": "textarea", "id": "description", "label": "Description", "default": "Quick walkthrough" },
         { "type": "image_picker", "id": "thumbnail", "label": "Thumbnail Image" },
         { "type": "url", "id": "video_url", "label": "Video URL" },
+        { "type": "text", "id": "embed_id", "label": "YouTube Embed ID", "info": "Just the video ID (e.g., 'dQw4w9WgXcQ')" },
         { "type": "text", "id": "duration", "label": "Duration", "default": "5:30" }
       ]
     }

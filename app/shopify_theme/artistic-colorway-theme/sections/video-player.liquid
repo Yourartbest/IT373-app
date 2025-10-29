@@ -1,0 +1,324 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style video-player-section" style="{% render 'spacing-style', settings: section.settings %}">
+    
+    <div class="video-player-container">
+        <div id="video-content">
+            <!-- Video will be loaded here dynamically -->
+            <div class="video-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading video...</p>
+            </div>
+        </div>
+        
+        <div class="video-details">
+            <h1 id="video-title" class="video-player-title">Video Title</h1>
+            <div id="video-description" class="video-player-description">
+                <p>Video description will appear here.</p>
+            </div>
+            <div id="video-metadata" class="video-metadata">
+                <span id="video-duration" class="metadata-item"></span>
+                <span id="video-category" class="metadata-item"></span>
+            </div>
+        </div>
+        
+        <!-- Related Videos Section -->
+        <div class="related-videos-section">
+            <h2 class="related-videos-title">Related Videos</h2>
+            <div id="related-videos-grid" class="related-videos-grid">
+                <!-- Related videos will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+(function() {
+    // Video database - in production this would come from your actual data source
+    const videoDatabase = {
+        {% for block in section.blocks %}
+        {% if block.type == 'video_item' %}
+        '{{ block.settings.video_id }}': {
+            id: '{{ block.settings.video_id }}',
+            title: {{ block.settings.title | json }},
+            description: {{ block.settings.description | json }},
+            videoUrl: {{ block.settings.video_url | json }},
+            thumbnail: {% if block.settings.thumbnail != blank %}'{{ block.settings.thumbnail | image_url: width: 800 }}'{% else %}null{% endif %},
+            duration: {{ block.settings.duration | json }},
+            category: {{ block.settings.tags | json }},
+            embedId: {{ block.settings.embed_id | json }}
+        }{% unless forloop.last %},{% endunless %}
+        {% endif %}
+        {% endfor %}
+    };
+    
+    // Get video ID from URL parameter
+    function getVideoIdFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('v');
+    }
+    
+    // Extract YouTube video ID from various URL formats
+    function extractYouTubeId(url) {
+        if (!url) return null;
+        const patterns = [
+            /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+            /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+            /^([a-zA-Z0-9_-]{11})$/ // Direct ID
+        ];
+        
+        for (const pattern of patterns) {
+            const match = url.match(pattern);
+            if (match) return match[1];
+        }
+        return null;
+    }
+    
+    // Render video player
+    function renderVideoPlayer(videoData) {
+        const contentDiv = document.getElementById('video-content');
+        
+        // Check if it's a YouTube URL
+        const youtubeId = extractYouTubeId(videoData.embedId || videoData.videoUrl);
+        
+        if (youtubeId) {
+            // Render YouTube embed
+            contentDiv.innerHTML = `
+                <div class="video-embed-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/${youtubeId}?autoplay=1" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        class="video-iframe">
+                    </iframe>
+                </div>
+            `;
+        } else if (videoData.videoUrl) {
+            // Render as external link or custom player
+            contentDiv.innerHTML = `
+                <div class="video-embed-wrapper">
+                    <div class="video-placeholder-large">
+                        <i class="fas fa-play-circle"></i>
+                        <p>Click below to watch this video</p>
+                        <a href="${videoData.videoUrl}" target="_blank" rel="noopener" class="btn-primary">
+                            <i class="fas fa-external-link-alt"></i> Open Video
+                        </a>
+                    </div>
+                </div>
+            `;
+        } else {
+            contentDiv.innerHTML = `
+                <div class="video-embed-wrapper">
+                    <div class="video-placeholder-large">
+                        <i class="fas fa-video-slash"></i>
+                        <p>Video not available</p>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    
+    // Render video details
+    function renderVideoDetails(videoData) {
+        document.getElementById('video-title').textContent = videoData.title || 'Untitled Video';
+        document.getElementById('video-description').innerHTML = `<p>${videoData.description || 'No description available.'}</p>`;
+        
+        const metadataDiv = document.getElementById('video-metadata');
+        metadataDiv.innerHTML = '';
+        
+        if (videoData.duration) {
+            metadataDiv.innerHTML += `<span class="metadata-item"><i class="fas fa-clock"></i> ${videoData.duration}</span>`;
+        }
+        
+        if (videoData.category) {
+            metadataDiv.innerHTML += `<span class="metadata-item"><i class="fas fa-tag"></i> ${videoData.category}</span>`;
+        }
+        
+        // Update page title
+        document.title = `${videoData.title} - ForgeFix Videos`;
+    }
+    
+    // Render related videos
+    function renderRelatedVideos(currentVideoId) {
+        const relatedGrid = document.getElementById('related-videos-grid');
+        const videos = Object.values(videoDatabase).filter(v => v.id !== currentVideoId).slice(0, 3);
+        
+        if (videos.length === 0) {
+            relatedGrid.innerHTML = '<p class="no-related">No related videos available.</p>';
+            return;
+        }
+        
+        relatedGrid.innerHTML = videos.map(video => {
+            const thumbnailHtml = video.thumbnail 
+                ? `<img src="${video.thumbnail}" alt="${video.title}">`
+                : `<div class="video-card-placeholder">
+                     <i class="fas fa-video"></i>
+                     <span>Thumbnail</span>
+                   </div>`;
+            
+            return `
+                <a href="?v=${video.id}" class="related-video-card">
+                    <div class="related-video-thumbnail">
+                        ${thumbnailHtml}
+                        <div class="video-card-overlay">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        ${video.duration ? `<span class="video-duration">${video.duration}</span>` : ''}
+                    </div>
+                    <div class="related-video-info">
+                        <h3>${video.title}</h3>
+                        <p>${video.description ? video.description.substring(0, 80) + '...' : ''}</p>
+                    </div>
+                </a>
+            `;
+        }).join('');
+    }
+    
+    // Initialize player
+    function initPlayer() {
+        const videoId = getVideoIdFromUrl();
+        
+        if (!videoId) {
+            document.getElementById('video-content').innerHTML = `
+                <div class="video-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <h2>No Video Selected</h2>
+                    <p>Please select a video from the <a href="/pages/videos">videos page</a>.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const videoData = videoDatabase[videoId];
+        
+        if (!videoData) {
+            document.getElementById('video-content').innerHTML = `
+                <div class="video-error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h2>Video Not Found</h2>
+                    <p>The requested video could not be found. <a href="/pages/videos">Browse all videos</a>.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        renderVideoPlayer(videoData);
+        renderVideoDetails(videoData);
+        renderRelatedVideos(videoId);
+    }
+    
+    // Run on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPlayer);
+    } else {
+        initPlayer();
+    }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Video Player",
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "scheme1",
+          "label": "Scheme 1"
+        },
+        {
+          "value": "scheme2",
+          "label": "Scheme 2"
+        }
+      ],
+      "default": "scheme1"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "narrow",
+          "label": "Narrow"
+        },
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "wide",
+          "label": "Wide"
+        }
+      ],
+      "default": "standard"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video_item",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "text",
+          "id": "video_id",
+          "label": "Video ID",
+          "info": "Unique identifier for this video (e.g., 'flsun-setup', 'calibration-guide')"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Video Title",
+          "default": "Video Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL",
+          "info": "Full URL to the video (YouTube, Vimeo, etc.)"
+        },
+        {
+          "type": "text",
+          "id": "embed_id",
+          "label": "Video Embed ID",
+          "info": "YouTube video ID or embed code (e.g., 'dQw4w9WgXcQ')"
+        },
+        {
+          "type": "image_picker",
+          "id": "thumbnail",
+          "label": "Thumbnail Image"
+        },
+        {
+          "type": "text",
+          "id": "duration",
+          "label": "Duration",
+          "default": "5:30"
+        },
+        {
+          "type": "text",
+          "id": "tags",
+          "label": "Category/Tags"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Player",
+      "blocks": [
+        {
+          "type": "video_item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

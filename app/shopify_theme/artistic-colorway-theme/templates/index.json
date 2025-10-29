@@ -23,40 +23,55 @@
         "video_1": {
           "type": "video_card",
           "settings": {
+            "video_id": "flsun-layer-shift",
             "title": "Fixing layer shifting — FLSUN T1 Pro",
             "description": "Diagnose and fix layer shifting issues",
+            "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            "embed_id": "dQw4w9WgXcQ",
             "duration": "8:45"
           }
         },
         "video_2": {
           "type": "video_card",
           "settings": {
+            "video_id": "nozzle-clog-clean",
             "title": "Nozzle clog deep clean",
             "description": "Complete cleaning and prevention guide",
+            "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            "embed_id": "dQw4w9WgXcQ",
             "duration": "12:30"
           }
         },
         "video_3": {
           "type": "video_card",
           "settings": {
+            "video_id": "firmware-tuning",
             "title": "Firmware tuning basics",
             "description": "Essential Marlin configuration steps",
+            "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            "embed_id": "dQw4w9WgXcQ",
             "duration": "15:20"
           }
         },
         "video_4": {
           "type": "video_card",
           "settings": {
+            "video_id": "bed-leveling",
             "title": "Bed leveling perfection",
             "description": "Get flawless first layers every time",
+            "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            "embed_id": "dQw4w9WgXcQ",
             "duration": "10:15"
           }
         },
         "video_5": {
           "type": "video_card",
           "settings": {
+            "video_id": "hotend-replacement",
             "title": "Hotend replacement guide",
             "description": "Complete hotend swap tutorial",
+            "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            "embed_id": "dQw4w9WgXcQ",
             "duration": "18:45"
           }
         }
